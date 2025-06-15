@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terminal Día del Padre - Estilo Hacker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #000000 0%, #0f0f0f 100%);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Share Tech Mono', monospace;
+    color: #00ff00;
+    user-select: none;
+  }
+
+  #terminal {
+    position: relative;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 30px 40px;
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    box-shadow:
+      0 0 10px #00ff00,
+      0 0 20px #00ff00,
+      0 0 30px #00ff00;
+    font-size: 20px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-shadow:
+      0 0 5px #00ff00,
+      0 0 10px #00ff00,
+      0 0 20px #0f0;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 12px;
+    height: 24px;
+    background: #00ff00;
+    animation: blink 1s steps(2) infinite;
+    vertical-align: bottom;
+    margin-left: 3px;
+    border-radius: 2px;
+  }
+
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+  }
+
+  /* Glitch effect */
+  @keyframes glitch {
+    0% {
+      text-shadow:
+        2px 0 red,
+        -2px 0 cyan;
+    }
+    20% {
+      text-shadow:
+        -2px 0 red,
+        2px 0 cyan;
+    }
+    40% {
+      text-shadow:
+        2px 0 red,
+        -2px 0 cyan;
+    }
+    60% {
+      text-shadow:
+        -2px 0 red,
+        2px 0 cyan;
+    }
+    80% {
+      text-shadow:
+        2px 0 red,
+        -2px 0 cyan;
+    }
+    100% {
+      text-shadow:
+        -2px 0 red,
+        2px 0 cyan;
+    }
+  }
+
+  .glitch {
+    animation: glitch 1s infinite;
+  }
+
+  /* Fondo animado */
+  @keyframes bgPulse {
+    0% { background-position: 0 0; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0 0; }
+  }
+
+  body {
+    background: linear-gradient(45deg, #000000, #003300, #000000);
+    background-size: 400% 400%;
+    animation: bgPulse 20s ease infinite;
+  }
+
+  /* Scrollbar estilo */
+  #terminal::-webkit-scrollbar {
+    width: 8px;
+  }
+  #terminal::-webkit-scrollbar-track {
+    background: #000;
+  }
+  #terminal::-webkit-scrollbar-thumb {
+    background: #00ff00;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div id="terminal"></div><div class="cursor"></div>
+
+<!-- Opcional: música ambiente hacker -->
+<audio id="ambientSound" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/03/audio_5b1b131681.mp3?filename=dark-futuristic-ambient-11626.mp3" type="audio/mpeg" />
+</audio>
+
+<script>
+  const terminal = document.getElementById('terminal');
+  const cursor = document.querySelector('.cursor');
+  const ambientSound = document.getElementById('ambientSound');
+
+  const lines = [
+    "> Iniciando sistema...",
+    "> Estableciendo conexión segura...",
+    "> Escaneando red interna...",
+    "> Acceso concedido al usuario principal.",
+    "> Target: Papá - ¡Feliz Día del Padre! 🎉",
+    "> Código secreto desbloqueado: TE AMO 100%",
+    "> Que tengas un día tan genial como tú.",
+    "> <span class='glitch'>— AXEL DOMINGUEZ —</span>"
+  ];
+
+  let lineIndex = 0;
+  let charIndex = 0;
+
+  function type() {
+    if (lineIndex < lines.length) {
+      if (charIndex < lines[lineIndex].length) {
+        // Insert character by character
+        terminal.innerHTML += lines[lineIndex][charIndex];
+        charIndex++;
+        setTimeout(type, 40);
+      } else {
+        terminal.innerHTML += '<br>';  // <-- salto de línea visible en HTML
+        lineIndex++;
+        charIndex = 0;
+        setTimeout(type, 800);
+      }
+    } else {
+      // Cuando termina, quita cursor o cambia efecto si quieres
+      cursor.style.animation = 'none';
+      // Opcional: inicia música
+      ambientSound.play();
+    }
+  }
+
+  // Inicia la animación de tipeo
+  type();
+
+  // Para activar o pausar música con click en pantalla (opcional)
+  document.body.addEventListener('click', () => {
+    if (ambientSound.paused) ambientSound.play();
+    else ambientSound.pause();
+  });
+</script>
+
+</body>
+</html>
